@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -32,6 +33,16 @@ public class Person {
     @Email
     @NotEmpty(message = "Email cannot be empty!")
     private String email;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "created_who")
+    @NotEmpty
+    private String createdWho;
 
     public Person() {
     }
@@ -73,6 +84,30 @@ public class Person {
         this.email = email;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getCreatedWho() {
+        return createdWho;
+    }
+
+    public void setCreatedWho(String createdWho) {
+        this.createdWho = createdWho;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -83,7 +118,10 @@ public class Person {
         if (id != person.id) return false;
         if (age != person.age) return false;
         if (name != null ? !name.equals(person.name) : person.name != null) return false;
-        return email != null ? email.equals(person.email) : person.email == null;
+        if (email != null ? !email.equals(person.email) : person.email != null) return false;
+        if (createdAt != null ? !createdAt.equals(person.createdAt) : person.createdAt != null) return false;
+        if (updatedAt != null ? !updatedAt.equals(person.updatedAt) : person.updatedAt != null) return false;
+        return createdWho != null ? createdWho.equals(person.createdWho) : person.createdWho == null;
     }
 
     @Override
@@ -92,6 +130,9 @@ public class Person {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (int) age;
         result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
+        result = 31 * result + (createdWho != null ? createdWho.hashCode() : 0);
         return result;
     }
 
